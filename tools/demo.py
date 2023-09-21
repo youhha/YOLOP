@@ -140,6 +140,7 @@ def detect(cfg,opt):
                 plot_one_box(xyxy, img_det , label=label_det_pred, color=colors[int(cls)], line_thickness=2)
         
         if dataset.mode == 'images':
+            # show
             cv2.namedWindow("test", cv2.WINDOW_NORMAL)
             cv2.resizeWindow("test", int(img_det.shape[1])*2, int(img_det.shape[0])*2)
             cv2.imshow("test", img_det)
