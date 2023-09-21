@@ -125,6 +125,8 @@ def detect(cfg,opt):
         ll_seg_mask = torch.nn.functional.interpolate(ll_predict, scale_factor=int(1/ratio), mode='bilinear')
         _, ll_seg_mask = torch.max(ll_seg_mask, 1)
         ll_seg_mask = ll_seg_mask.int().squeeze().cpu().numpy()
+        img_det=cv2.resize(img_det,(da_seg_mask.shape[1],da_seg_mask.shape[0]) ,interpolation=cv2.INTER_AREA)
+
         # Lane line post-processing
         #ll_seg_mask = morphological_process(ll_seg_mask, kernel_size=7, func_type=cv2.MORPH_OPEN)
         #ll_seg_mask = connect_lane(ll_seg_mask)
@@ -138,6 +140,10 @@ def detect(cfg,opt):
                 plot_one_box(xyxy, img_det , label=label_det_pred, color=colors[int(cls)], line_thickness=2)
         
         if dataset.mode == 'images':
+            cv2.namedWindow("test", cv2.WINDOW_NORMAL)
+            cv2.resizeWindow("test", int(img_det.shape[1])*2, int(img_det.shape[0])*2)
+            cv2.imshow("test", img_det)
+            cv2.waitKey(30)
             cv2.imwrite(save_path,img_det)
 
         elif dataset.mode == 'video':
@@ -150,6 +156,7 @@ def detect(cfg,opt):
                 fps = vid_cap.get(cv2.CAP_PROP_FPS)
                 h,w,_=img_det.shape
                 vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*fourcc), fps, (w, h))
+
             vid_writer.write(img_det)
         
         else:
@@ -170,7 +177,7 @@ if __name__ == '__main__':
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
-    parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--device', default='0', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--save-dir', type=str, default='inference/output', help='directory to save results')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--update', action='store_true', help='update all models')
