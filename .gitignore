@@ -4,6 +4,7 @@
 ./YOLOP/.tmp/
 ./YOLOP/.vscode/
 ./YOLOP/inference/
+YOLOP/inference/output/*.jpg
 ./YOLOP/bdd/
 ./YOLOP/runs/
 ./YOLOP/inference/
