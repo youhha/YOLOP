@@ -7,7 +7,6 @@
 ./YOLOP/.tmp/
 ./YOLOP/.vscode/
 ./YOLOP/inference/
-./YOLOP/inference/output/*.jpg
 ./YOLOP/bdd/
 ./YOLOP/runs/
 ./YOLOP/inference/
@@ -40,3 +39,4 @@
 ./ORB_SLAM2/*~
 ./ORB_SLAM2/lib/
 
+YOLOP/inference/output/*.jpg
