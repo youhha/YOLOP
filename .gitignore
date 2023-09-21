@@ -40,4 +40,4 @@
 ./ORB_SLAM2/lib/
 
 YOLOP/inference/output/*.jpg
-/home/nio/文档/YOLOP_SLAM/YOLOP/runs/BddDataset
+YOLOP/runs/BddDataset
