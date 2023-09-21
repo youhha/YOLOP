@@ -3,6 +3,7 @@
 ./YOLOP/.idea/
 ./YOLOP/.tmp/
 ./YOLOP/.vscode/
+./YOLOP/inference/
 ./YOLOP/bdd/
 ./YOLOP/runs/
 ./YOLOP/inference/
