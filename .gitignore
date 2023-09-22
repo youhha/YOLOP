@@ -41,3 +41,12 @@
 
 YOLOP/inference/output/*.jpg
 YOLOP/runs/BddDataset
+
+monodepth2/*.png
+
+YOLOP-opencv-dnn/build
+monodepth2/c++/build
+
+monodepth2/assets
+
+YOLOP-opencv-dnn/images/*.jpg
