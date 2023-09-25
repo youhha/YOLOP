@@ -23,7 +23,22 @@ void baseDepth::depth(Mat &frame, Mat &res)
     cout << "c: " << channel << " , h: " << h << " , w: " << w << endl;
     Mat depthMap(scores[0].size[2], scores[0].size[3], CV_32F, scores[0].ptr<float>(0, 0));
     cout << depthMap.size() << endl;
-    depthMap *= 255.0;
+
+    float min_disp = 1 / 100.0;
+    float max_disp = 1 / 0.1;
+    depthMap *= (max_disp - min_disp);
+    depthMap += min_disp;
+    depthMap = 1 / depthMap;
+    cv::imwrite("depth.png", depthMap);
+    cv::normalize(depthMap, depthMap, 0, 255, cv::NORM_MINMAX, CV_8UC1);
+    cv::imwrite("depth_norm.png", depthMap);
+    // depthMap *= 255.0;
+    // float min_disp = 1.0f / 255;
+    // float max_disp = 1.0f / 0.1;
+
+    // depthMap = min_disp + (max_disp - min_disp) * depthMap;
+    // depthMap = 5.4f / depthMap;
+
     // depthMap.convertTo(depthMap, CV_8UC1);
     resize(depthMap, depthMap, Size(ori_w, ori_h));
     // applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);

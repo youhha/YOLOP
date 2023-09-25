@@ -653,8 +653,13 @@ namespace ORB_SLAM2
             const float &v = kp.pt.y;
             const float &u = kp.pt.x;
 
-            const float d = imDepth.at<float>(v, u);
-
+            float d = imDepth.at<float>(v, u);
+            // float min_disp = 1 / 100.0;
+            // float max_disp = 1 / 0.1;
+            // d *= (max_disp - min_disp);
+            // d += min_disp;
+            // d = 1 / d;
+            std::cout << "d:" << d << std::endl;
             if (d > 0)
             {
                 mvDepth[i] = d;

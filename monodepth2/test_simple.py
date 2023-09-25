@@ -152,6 +152,7 @@ def test_simple(args):
             vmax = np.percentile(disp_resized_np, 95)
             normalizer = mpl.colors.Normalize(vmin=disp_resized_np.min(), vmax=vmax)
             mapper = cm.ScalarMappable(norm=normalizer, cmap='magma')
+            # *255是为了显示出来，因为mapper.to_rgba(disp_resized_np)[:, :, :3]的值在0-1之间
             colormapped_im = (mapper.to_rgba(disp_resized_np)[:, :, :3] * 255).astype(np.uint8)
             im = pil.fromarray(colormapped_im)
 

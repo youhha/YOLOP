@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         // imRGB = imRGB(cv::Rect(imRGB.cols / 2 - 320, imRGB.rows / 2 - 96, 320, 192));
         imD = cv::imread(string(argv[3]) + "/" + vstrImageFilenamesD[ni], cv::IMREAD_UNCHANGED);
         model.depth(imRGB, imD_deep);
-        imD.convertTo(imD_copy, CV_32F, 0.0002);
+        // imD.convertTo(imD_copy, CV_32F, 0.0002);
         cv::cvtColor(imRGB, imRGB, cv::COLOR_RGB2GRAY);
         Mat res = model.viewer({imRGB, imD_deep}, 0.90);
         imshow(kWinName, res);

@@ -43,10 +43,10 @@ Mat baseDepth::depth(Mat &frame)
     cout << "c: " << channel << " , h: " << h << " , w: " << w << endl;
     Mat depthMap(scores[0].size[2], scores[0].size[3], CV_32F, scores[0].ptr<float>(0, 0));
     cout << depthMap.size() << endl;
-    depthMap *= 255.0;
+    // depthMap *= 255.0;
     // depthMap.convertTo(depthMap, CV_8UC1);
     resize(depthMap, depthMap, Size(ori_w, ori_h));
-    // applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
+    applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
     return depthMap;
 }
 
