@@ -7,7 +7,7 @@ using namespace cv;
 using namespace dnn;
 using namespace std;
 
-Mat baseDepth::depth(Mat &frame)
+void baseDepth::depth(Mat &frame, Mat &res)
 {
     int ori_h = frame.size[0];
     int ori_w = frame.size[1];
@@ -24,10 +24,10 @@ Mat baseDepth::depth(Mat &frame)
     Mat depthMap(scores[0].size[2], scores[0].size[3], CV_32F, scores[0].ptr<float>(0, 0));
     cout << depthMap.size() << endl;
     depthMap *= 255.0;
-    depthMap.convertTo(depthMap, CV_8UC1);
+    // depthMap.convertTo(depthMap, CV_8UC1);
     resize(depthMap, depthMap, Size(ori_w, ori_h));
-    applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
-    return depthMap;
+    // applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
+    res = depthMap.clone();
 }
 
 Mat baseDepth::viewer(vector<Mat> imgs, double alpha)

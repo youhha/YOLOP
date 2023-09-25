@@ -18,7 +18,7 @@ public:
         this->net = readNetFromONNX(model_path);
         cout << "end" << endl;
     };
-    Mat depth(Mat &frame);
+    void depth(Mat &frame, Mat &res);
     Mat viewer(vector<Mat> imgs, double alpha = 0.80);
 
 private:

@@ -44,9 +44,9 @@ Mat baseDepth::depth(Mat &frame)
     Mat depthMap(scores[0].size[2], scores[0].size[3], CV_32F, scores[0].ptr<float>(0, 0));
     cout << depthMap.size() << endl;
     depthMap *= 255.0;
-    depthMap.convertTo(depthMap, CV_8UC1);
+    // depthMap.convertTo(depthMap, CV_8UC1);
     resize(depthMap, depthMap, Size(ori_w, ori_h));
-    applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
+    // applyColorMap(depthMap, depthMap, COLORMAP_MAGMA);
     return depthMap;
 }
 
@@ -69,33 +69,40 @@ int main(int argc, char **argv)
 {
     if (argc < 3)
     {
-        std::cerr << "Usage: " << argv[0] << " <video_file_path> <model_path>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <image_folder_path> <model_path>" << std::endl;
         return 1;
     }
 
-    VideoCapture capture(0); // 打开视频文件
-    if (!capture.isOpened())
-    {
-        std::cerr << "Error: Could not open video file." << std::endl;
-        return 1;
-    }
+    std::string imageFolder = argv[1];
+    std::string modelPath = argv[2];
 
     int h = 192, w = 640;
-    baseDepth model(h, w, argv[2]);
+    baseDepth model(h, w, modelPath);
 
     static const std::string kWinName = "Deep learning Mono depth estimation in OpenCV";
     namedWindow(kWinName, WINDOW_NORMAL);
 
-    Mat frame;
-    while (capture.read(frame)) // 从视频中读取每一帧
-    {
-        Mat depthMap = model.depth(frame);
+    // List all image files in the specified folder
+    std::vector<std::string> imageFiles;
+    cv::glob(imageFolder, imageFiles);
 
+    for (const std::string &imageFile : imageFiles)
+    {
+        Mat frame = imread(imageFile);
+
+        if (frame.empty())
+        {
+            std::cerr << "Error: Could not open image file " << imageFile << std::endl;
+            continue;
+        }
+
+        Mat depthMap = model.depth(frame);
+        cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
         Mat res = model.viewer({frame, depthMap}, 0.90);
         imshow(kWinName, res);
 
-        char key = waitKey(1);
-        if (key == 27) // 按下ESC键退出循环
+        char key = waitKey(1); // Wait indefinitely for a key press
+        if (key == 27)         // Press ESC to exit
             break;
     }
 
